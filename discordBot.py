@@ -2,8 +2,8 @@ import discord
 from selenium import webdriver
 import time
 from operator import eq
+import os
 
-token = "Njc1OTAyNjA1MDM3MjczMTE1.Xj95mw.-JckRArSw1l7lV7qNsIy7aqI7is"
 client = discord.Client() # discord.Client() 대신 "app"를 써도 되게 만들어주자
 
 @client.event
@@ -50,5 +50,5 @@ async def on_message(message):
         driver.quit()
         await message.channel.send("솔로\nK/D : " + soloKD + "\n평균 딜량 : " + soloDeals + "\n듀오\nK/D : " + duoKD + "\n평균 딜량 : " + duoDeals + "\n스쿼드\nK/D : " + squadKD + "\n평균 딜량 : " + squadDeals)
 
-
-client.run(token)
+access_token = os.environ["BOT_TOKEN"]
+client.run(access_token)
