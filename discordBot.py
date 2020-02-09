@@ -20,7 +20,7 @@ async def on_message(message):
         await message.channel.send("!오늘날씨 지역입력\n!오늘날씨 띄우고 지역이름 ex) 대구 북구")
     elif message.content.startswith("!오늘날씨"):
         area = message.content[6:]
-        driver = webdriver.Chrome("https://github.com/seokee33/DicBot/blob/master/cr.exe")
+        driver = webdriver.Chrome("C:/Chrome/cr.exe")
         driver.get("https://www.naver.com")
         driver.find_element_by_css_selector("#query").send_keys(area+" 오늘날씨")
         driver.find_element_by_css_selector("#search_btn").click()
@@ -30,25 +30,29 @@ async def on_message(message):
         await message.channel.send("온도 : "+temperature+"도\n"+today)
     elif message.content.startswith("!전적검색"):
         gameID = message.content[6:]
-        driver = webdriver.Chrome("https://github.com/seokee33/DicBot/blob/master/cr.exe")
+        driver = webdriver.Chrome("C:/Chrome/cr.exe")
         driver.get("https://dak.gg")
         driver.find_element_by_css_selector("#frontPage > div.panel-left > form.search > input").send_keys(gameID)
         driver.find_element_by_css_selector("#frontPage > div > form > button > i").click()
-        driver.find_element_by_css_selector("#profile > div > div > div.renew > button.renew > span").click()
-        time.sleep(5)
-        while True:
-            renew = driver.find_element_by_css_selector("#profile > div > div > div > button.renew.latest > span").text
-            if eq(renew, "최신 전적") == True :
-                break
-        time.sleep(10)
-        soloKD = driver.find_element_by_css_selector("#profile > div > div > section > div > div > div > p.value").text
-        soloDeals = driver.find_element_by_css_selector("#profile > div > div > section > div > div > div.deals.stats-item.stats-top-graph > p.value").text
-        duoKD = driver.find_element_by_css_selector("#profile > div > div > section:nth-child(2) > div > div > div > p.value").text
-        duoDeals = driver.find_element_by_css_selector("#profile > div > div > section:nth-child(2) > div > div > div:nth-child(4) > p.value").text
-        squadKD = driver.find_element_by_css_selector("#profile > div > div > section:nth-child(3) > div > div > div > p.value").text
-        squadDeals = driver.find_element_by_css_selector("#profile > div > div > section:nth-child(3) > div > div > div:nth-child(4) > p.value").text
-        driver.quit()
-        await message.channel.send("솔로\nK/D : " + soloKD + "\n평균 딜량 : " + soloDeals + "\n듀오\nK/D : " + duoKD + "\n평균 딜량 : " + duoDeals + "\n스쿼드\nK/D : " + squadKD + "\n평균 딜량 : " + squadDeals)
-
+        try:
+            driver.find_element_by_css_selector("#profile > div > div > div.renew > button.renew > span").click()
+            time.sleep(5)
+            while True:
+                renew = driver.find_element_by_css_selector("#profile > div > div > div > button.renew.latest > span").text
+                if eq(renew, "최신 전적") == True :
+                    break
+            time.sleep(10)
+            soloKD = driver.find_element_by_css_selector("#profile > div > div > section > div > div > div > p.value").text
+            soloDeals = driver.find_element_by_css_selector("#profile > div > div > section > div > div > div.deals.stats-item.stats-top-graph > p.value").text
+            duoKD = driver.find_element_by_css_selector("#profile > div > div > section:nth-child(2) > div > div > div > p.value").text
+            duoDeals = driver.find_element_by_css_selector("#profile > div > div > section:nth-child(2) > div > div > div:nth-child(4) > p.value").text
+            squadKD = driver.find_element_by_css_selector("#profile > div > div > section:nth-child(3) > div > div > div > p.value").text
+            squadDeals = driver.find_element_by_css_selector("#profile > div > div > section:nth-child(3) > div > div > div:nth-child(4) > p.value").text
+            driver.quit()
+            await message.channel.send("솔로\nK/D : " + soloKD + "\n평균 딜량 : " + soloDeals + "\n듀오\nK/D : " + duoKD + "\n평균 딜량 : " + duoDeals + "\n스쿼드\nK/D : " + squadKD + "\n평균 딜량 : " + squadDeals)
+        except:
+            driver.quit()
+            await message.channel.send("잘못된 ID")
+            return
 access_token = os.environ["BOT_TOKEN"]
 client.run(access_token)
