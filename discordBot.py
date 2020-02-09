@@ -17,7 +17,7 @@ async def on_ready():
 async def on_message(message):
     if message.content.startswith("!help"):
         await message.channel.send("!전적검색 ID입력\n!전적검색 띄우고 아이디입력")
-        await message.channel.send("!오늘날씨 지역입력\n!전적검색 띄우고 지역이름 ex) 대구 북구")
+        await message.channel.send("!오늘날씨 지역입력\n!오늘날씨 띄우고 지역이름 ex) 대구 북구")
     elif message.content.startswith("!오늘날씨"):
         area = message.content[6:]
         driver = webdriver.Chrome("C:/Chrome/cr.exe")
